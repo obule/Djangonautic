@@ -1,0 +1,46 @@
+{% load static from staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="{% static 'styles.css'%}" />
+    <title>Articles</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>
+        <a href="{% url 'home' %}">
+          <img src="{% static 'logo.png' %}" alt="" srcset=""
+        /></a>
+      </h1>
+      <nav>
+        <ul>
+          {% if user.is_authenticated %}
+          <li>
+            <form
+              class="logout-link"
+              action="{% url 'accounts:logout' %}"
+              method="post"
+            >
+              {% csrf_token %}
+              <button type="submit">Logout</button>
+            </form>
+          </li>
+          <li>
+            <a href="{% url 'articles:create' %}" class="highlight"
+              >New Article</a
+            >
+          </li>
+          {% else %}
+          <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          <li><a href="{% url 'accounts:signup' %}">Signup</a></li>
+
+          {% endif %}
+        </ul>
+      </nav>
+
+      {% block content %} {% endblock %}
+    </div>
+  </body>
+</html>
